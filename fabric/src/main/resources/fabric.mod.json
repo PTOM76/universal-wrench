@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "${mod_id}",
+  "version": "${version}",
+  "name": "${mod_name}",
+  "description": "Consolidate wrenches into one",
+  "authors": [
+    "Pitan"
+  ],
+  "contact": {
+    "homepage": "https://curseforge.com/minecraft/mc-mods/universal-wrench",
+    "sources": "https://github.com/PTOM76/universal-wrench",
+    "issues": "https://gibhub.com/PTOM76/universal-wrench/issues"
+  },
+  "license": "Apache-2.0",
+  "icon": "assets/universalwrench/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "net.pitan76.universalwrench.fabric.UniversalWrenchFabric"
+    ]
+  },
+  "depends": {
+    "fabricloader": "*",
+    "minecraft": ">=1.16",
+    "mcpitanlib": "*"
+  }
+}
