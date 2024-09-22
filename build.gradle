@@ -32,6 +32,30 @@ subprojects {
         }
 
         maven { url "https://cursemaven.com" }
+
+        //gt
+        maven { url = 'https://maven.firstdarkdev.xyz/snapshots'
+            content {
+                includeGroup 'com.lowdragmc.ldlib'
+                includeGroup 'com.gregtechceu.gtceu'
+                includeGroup 'dev.toma.configuration'
+            }
+        }
+
+        maven {
+            url "https://maven.saps.dev/releases/"
+            content {
+                includeGroup "dev.latvian.mods"
+            }
+        }
+
+        maven {
+            name = "Terraformers"
+            url = "https://maven.terraformersmc.com/"
+        }
+
+        maven { url = "https://maven.cafeteria.dev/releases"}
+
         mavenLocal()
     }
 

@@ -38,11 +38,15 @@ dependencies {
     modImplementation("net.pitan76:EnhancedQuarries:1.5.0")
     modImplementation "curse.maven:speedy-path-1102702:5725739"
     modImplementation "curse.maven:bew76-1106172:5740315"
+    modImplementation "curse.maven:modern-industrialization-405388:5562363"
+    modImplementation "curse.maven:industrial-revolution-391708:5254377"
 
     modImplementation "appeng:appliedenergistics2-fabric:15.2.12"
     modCompileOnly "appeng:appliedenergistics2-fabric:15.2.12:api"
 
     modImplementation "me.shedaniel:RoughlyEnoughItems-fabric:12.1.770"
+
+    modImplementation "com.gregtechceu.gtceu:gtceu-fabric-1.20.1:1.0.20.b"
 }
 
 processResources {
