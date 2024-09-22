@@ -34,7 +34,13 @@ dependencies {
     modImplementation 'RebornCore:RebornCore-1.20:5.8.7'
     modImplementation 'TechReborn:TechReborn-1.20:5.8.7'
 
-    modImplementation("net.pitan76:itemalchemy:1.0.2")
+    modImplementation("net.pitan76:itemalchemy:1.0.2") {
+        exclude group: "me.shedaniel", module: "RoughlyEnoughItems-fabric"
+        exclude group: "net.fabricmc", module: "fabric-api"
+        exclude group: "net.fabricmc", module: "fabric-loader"
+        exclude group: "dev.architectury", module: "architectury-fabric"
+    }
+
     modImplementation("net.pitan76:EnhancedQuarries:1.5.0")
     modImplementation "curse.maven:speedy-path-1102702:5725739"
     modImplementation "curse.maven:bew76-1106172:5740315"
@@ -42,11 +48,11 @@ dependencies {
     modImplementation "curse.maven:industrial-revolution-391708:5254377"
 
     modImplementation "appeng:appliedenergistics2-fabric:15.2.12"
-    modCompileOnly "appeng:appliedenergistics2-fabric:15.2.12:api"
+    //modCompileOnly "appeng:appliedenergistics2-fabric:15.2.12:api"
 
-    modImplementation "me.shedaniel:RoughlyEnoughItems-fabric:12.1.770"
+    //modLocalRuntime  "me.shedaniel:RoughlyEnoughItems-fabric:12.1.770"
 
-    modImplementation "com.gregtechceu.gtceu:gtceu-fabric-1.20.1:1.0.20.b"
+    //modImplementation "com.gregtechceu.gtceu:gtceu-fabric-1.20.1:1.0.20.b"
 }
 
 processResources {
