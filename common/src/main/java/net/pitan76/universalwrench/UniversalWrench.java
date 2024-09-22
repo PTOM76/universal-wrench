@@ -18,6 +18,8 @@ public class UniversalWrench extends CommonModInitializer {
         INSTANCE = this;
         registry = super.registry;
 
+        UWConfig.init();
+
         registry.registerItem(_id("damageable_wrench"), () -> new DamageableWrenchItem(100));
         registry.registerItem(_id("wrench"), WrenchItem::new);
     }
