@@ -30,6 +30,15 @@ dependencies {
     shadowCommon(project(path: ":common", configuration: "transformProductionFabric")) { transitive false }
 
     modApi "net.pitan76:mcpitanlib-fabric+${rootProject.mcpitanlib_version}"
+
+    modImplementation 'RebornCore:RebornCore-1.20:5.10.3'
+    modImplementation 'TechReborn:TechReborn-1.20:5.10.3'
+
+    modImplementation("net.pitan76.itemalchemy:1.0.2")
+    modImplementation("net.pitan76.EnhancedQuarries:0.5.0")
+    modCompileOnly "appeng:appliedenergistics2-fabric:VERSION:api"
+
+    modImplementation "me.shedaniel:RoughlyEnoughItems-fabric:14.0.687"
 }
 
 processResources {
