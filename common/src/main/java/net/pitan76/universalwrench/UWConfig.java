@@ -47,6 +47,6 @@ public class UWConfig {
     }
 
     static {
-        //wrenches.add("techreborn:wrench");
+        wrenches.add("gtceu:iron_wrench");
     }
 }
