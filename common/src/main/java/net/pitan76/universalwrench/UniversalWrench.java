@@ -5,6 +5,7 @@ import net.pitan76.mcpitanlib.api.registry.v2.CompatRegistryV2;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.universalwrench.item.DamageableWrenchItem;
 import net.pitan76.universalwrench.item.WrenchItem;
+import net.pitan76.universalwrench.screen.ScreenHandlers;
 
 public class UniversalWrench extends CommonModInitializer {
     public static final String MOD_ID = "universalwrench";
@@ -19,6 +20,7 @@ public class UniversalWrench extends CommonModInitializer {
         registry = super.registry;
 
         UWConfig.init();
+        ScreenHandlers.init();
 
         registry.registerItem(_id("damageable_wrench"), () -> new DamageableWrenchItem(100));
         registry.registerItem(_id("wrench"), WrenchItem::new);

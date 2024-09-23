@@ -6,10 +6,17 @@ import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
+import net.minecraft.screen.NamedScreenHandlerFactory;
+import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.text.Text;
+import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.pitan76.mcpitanlib.api.entity.Player;
+import net.pitan76.mcpitanlib.api.event.item.ItemUseEvent;
 import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.item.DefaultItemGroups;
 import net.pitan76.mcpitanlib.api.item.ExtendItem;
@@ -18,10 +25,12 @@ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.ItemUtil;
 import net.pitan76.universalwrench.UWConfig;
+import net.pitan76.universalwrench.screen.WrenchScreenHandler;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class WrenchItem extends ExtendItem {
+public class WrenchItem extends ExtendItem implements NamedScreenHandlerFactory {
     public WrenchItem(CompatibleItemSettings settings) {
         super(settings);
         InteractionEvent.RIGHT_CLICK_BLOCK.register(((p, hand, pos, dir) -> {
@@ -72,6 +81,16 @@ public class WrenchItem extends ExtendItem {
         this(CompatibleItemSettings.of().maxCount(1).addGroup(DefaultItemGroups.TOOLS));
     }
 
+    @Override
+    public TypedActionResult<ItemStack> onRightClick(ItemUseEvent e) {
+        if (!e.isSneaking())
+            return e.pass();
+
+
+
+        return e.pass();
+    }
+
     @ExpectPlatform
     public static ItemStack getModWrenchByBlock(Block block) {
         throw new AssertionError();
@@ -87,5 +106,15 @@ public class WrenchItem extends ExtendItem {
             return ItemStackUtil.empty();
 
         return ItemStackUtil.create(ItemUtil.fromId(CompatIdentifier.of(namespace, path)));
+    }
+
+    @Override
+    public Text getDisplayName() {
+        return getName();
+    }
+
+    @Override
+    public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
+        return new WrenchScreenHandler(syncId, playerInventory);
     }
 }
