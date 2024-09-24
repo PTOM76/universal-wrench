@@ -6,14 +6,11 @@ import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
-import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.block.ExtendBlock;
-import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.block.BlockUseEvent;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
-import net.pitan76.universalwrench.screen.WrenchScreenHandler;
-import org.jetbrains.annotations.Nullable;
+import net.pitan76.universalwrench.screen.WrenchEditTableScreenHandler;
 
 // TODO: NamedScreenHandlerFactoryもMCPitanLibに実装する
 public class WrenchEditTable extends ExtendBlock implements NamedScreenHandlerFactory {
@@ -37,7 +34,7 @@ public class WrenchEditTable extends ExtendBlock implements NamedScreenHandlerFa
     }
 
     @Override
-    public @Nullable ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new WrenchScreenHandler(syncId, playerInventory);
+    public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
+        return new WrenchEditTableScreenHandler(syncId, playerInventory);
     }
 }

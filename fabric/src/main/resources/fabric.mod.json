@@ -18,6 +18,9 @@
   "entrypoints": {
     "main": [
       "net.pitan76.universalwrench.fabric.UniversalWrenchFabric"
+    ],
+    "client": [
+      "net.pitan76.universalwrench.fabric.UniversalWrenchClientFabric"
     ]
   },
   "depends": {

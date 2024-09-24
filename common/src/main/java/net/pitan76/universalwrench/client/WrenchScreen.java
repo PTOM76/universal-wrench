@@ -7,7 +7,7 @@ import net.pitan76.mcpitanlib.api.client.CompatInventoryScreen;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 
 public class WrenchScreen extends CompatInventoryScreen {
-    private static final CompatIdentifier TEXTURE = CompatIdentifier.of("universalwrench", "textures/gui/container/wrench.png");
+    private static final CompatIdentifier TEXTURE = CompatIdentifier.of("universalwrench", "textures/gui/wrench_edit_table.png");
 
     public WrenchScreen(ScreenHandler handler, PlayerInventory inventory, Text title) {
         super(handler, inventory, title);

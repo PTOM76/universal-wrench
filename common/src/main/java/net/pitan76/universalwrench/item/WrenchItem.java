@@ -6,13 +6,8 @@ import dev.architectury.injectables.annotations.ExpectPlatform;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.screen.NamedScreenHandlerFactory;
-import net.minecraft.screen.ScreenHandler;
 import net.minecraft.server.network.ServerPlayerEntity;
-import net.minecraft.text.Text;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.hit.BlockHitResult;
 import net.pitan76.mcpitanlib.api.entity.Player;
@@ -25,12 +20,10 @@ import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.ItemUtil;
 import net.pitan76.universalwrench.UWConfig;
-import net.pitan76.universalwrench.screen.WrenchScreenHandler;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.Optional;
 
-public class WrenchItem extends ExtendItem implements NamedScreenHandlerFactory {
+public class WrenchItem extends ExtendItem {
     public WrenchItem(CompatibleItemSettings settings) {
         super(settings);
         InteractionEvent.RIGHT_CLICK_BLOCK.register(((p, hand, pos, dir) -> {
@@ -101,15 +94,5 @@ public class WrenchItem extends ExtendItem implements NamedScreenHandlerFactory 
             return ItemStackUtil.empty();
 
         return ItemStackUtil.create(ItemUtil.fromId(CompatIdentifier.of(namespace, path)));
-    }
-
-    @Override
-    public Text getDisplayName() {
-        return getName();
-    }
-
-    @Override
-    public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new WrenchScreenHandler(syncId, playerInventory);
     }
 }
