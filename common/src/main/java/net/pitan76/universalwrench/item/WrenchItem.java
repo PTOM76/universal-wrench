@@ -83,12 +83,7 @@ public class WrenchItem extends ExtendItem implements NamedScreenHandlerFactory 
 
     @Override
     public TypedActionResult<ItemStack> onRightClick(ItemUseEvent e) {
-        if (!e.isSneaking())
-            return e.pass();
-
-
-
-        return e.pass();
+        return super.onRightClick(e);
     }
 
     @ExpectPlatform

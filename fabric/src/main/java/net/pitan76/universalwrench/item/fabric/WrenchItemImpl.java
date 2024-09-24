@@ -1,13 +1,11 @@
 package net.pitan76.universalwrench.item.fabric;
 
 import appeng.block.AEBaseBlock;
-import aztech.modern_industrialization.ModernIndustrialization;
 import aztech.modern_industrialization.blocks.WrenchableBlockEntity;
 import net.minecraft.block.Block;
 import net.minecraft.block.DirtPathBlock;
 import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.item.ItemStack;
-import net.pitan76.bew76.WrenchItem;
 import net.pitan76.bew76.config.BEWConfig;
 import net.pitan76.enhancedquarries.block.base.BaseBlock;
 import net.pitan76.itemalchemy.block.IUseableWrench;
@@ -15,7 +13,6 @@ import net.pitan76.mcpitanlib.api.util.BlockUtil;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.PlatformUtil;
 import net.pitan76.speedypath.block.CustomPathBlock;
-import net.pitan76.speedypath.item.WrenchForPath;
 import reborncore.common.blocks.BlockMachineBase;
 
 import static net.pitan76.universalwrench.item.WrenchItem.getModWrench;
