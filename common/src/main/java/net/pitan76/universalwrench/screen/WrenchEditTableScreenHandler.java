@@ -42,6 +42,7 @@ public class WrenchEditTableScreenHandler extends SimpleScreenHandler {
         // TODO: Generate CompatRegistryLookup from World
         //CompatRegistryLookup registryLookup = new CompatRegistryLookup(player.getWorld().getRegistryManager());
 
+        // TODO: DefaultedListも改善するべき
         DefaultedList<ItemStack> list = DefaultedList.ofSize(16, ItemStackUtil.empty());
         InventoryUtil.readNbt(player.getWorld(), nbt, list);
 
@@ -58,6 +59,7 @@ public class WrenchEditTableScreenHandler extends SimpleScreenHandler {
         super(type, syncId);
         this.playerInventory = playerInventory;
         this.inventory = inventory;
+        this.inventory.screenHandler = this;
 
         initSlots();
     }
@@ -66,8 +68,8 @@ public class WrenchEditTableScreenHandler extends SimpleScreenHandler {
         addPlayerMainInventorySlots(playerInventory, 8, 84);
         addPlayerHotbarSlots(playerInventory, 8, 142);
 
-        callAddSlot(new UniversalWrenchSlot(inventory, 36, 44, 34));
-        addSlots(inventory, 37, 88, 6, 18, 4, 4);
+        callAddSlot(new UniversalWrenchSlot(inventory, 0, 44, 34));
+        addSlots(inventory, 1, 88, 6, 18, 4, 4);
     }
 
     @Override

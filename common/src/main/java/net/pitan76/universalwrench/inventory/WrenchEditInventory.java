@@ -15,14 +15,13 @@ import net.pitan76.universalwrench.screen.WrenchEditTableScreenHandler;
 
 import java.util.Optional;
 
-// TODO: SimpleInventoryをMCPItanLibに実装する
+// TODO: SimpleInventoryをMCPItanLibに実装、setStackなどの関数も用意するべき
 public class WrenchEditInventory extends SimpleInventory {
 
     public WrenchEditTableScreenHandler screenHandler;
 
-    public WrenchEditInventory(WrenchEditTableScreenHandler screenHandler) {
+    public WrenchEditInventory() {
         this(1 + 16);
-        this.screenHandler = screenHandler;
     }
 
     public WrenchEditInventory(int size) {
@@ -38,48 +37,64 @@ public class WrenchEditInventory extends SimpleInventory {
         if (!optional.isPresent()) return Optional.empty();
 
         WrenchEditTableScreenHandler screenHandler = optional.get();
+        // TODO: ScreenHandlerのPlayerInventoryからわざわざplayerを取り出すのはダメ、getPlayer()をprepare
         if (screenHandler.playerInventory == null || screenHandler.playerInventory.player == null)
             return Optional.empty();
 
         return Optional.of(new Player(screenHandler.playerInventory.player));
     }
 
+    /**
+     * If set stack, and slot equals 0 then load or write nbt of universal wrench stack
+     * @param slot placed slot index
+     * @param stack placed stack
+     */
     @Override
     public void setStack(int slot, ItemStack stack) {
+        super.setStack(slot, stack);
         if (slot == 0) {
             if (stack.isEmpty()) {
-                super.setStack(slot, stack);
-                setEmptyToWrenchContainer();
+                clearWrenchContainer();
             }
 
             if (stack.getItem() instanceof WrenchItem) {
-                super.setStack(slot, stack);
                 updateWrenchContainerByWrenchStack();
             }
             return;
         }
 
+        // write nbt to stack
         updateWrenchStack();
-
-        super.setStack(slot, stack);
     }
 
+    /**
+     * super method of setStack(slot, stack)
+     */
     public void superSetStack(int slot, ItemStack stack) {
         super.setStack(slot, stack);
     }
 
-    public void setEmptyToWrenchContainer() {
+    /**
+     * Clear wrench container (slots of index 1-16)
+     */
+    public void clearWrenchContainer() {
         for (int i = 1; i < size(); i++) {
-            if (getStack(i).isEmpty()) {
-                super.setStack(i, ItemStackUtil.empty());
-            }
+            super.setStack(i, ItemStackUtil.empty());
+
         }
     }
 
+    /**
+     * Get universal wrench stack (slot of index 0)
+     * @return universal wrench stack
+     */
     public ItemStack getWrenchStack() {
-        return getStack(0);
+        return super.getStack(0);
     }
 
+    /**
+     * Set nbt of the wrench to listed item stacks in wrench container (slots of index 1-16)
+     */
     public void updateWrenchStack() {
         Optional<Player> optional = getPlayer();
         if (!optional.isPresent() || optional.get().isClient()) return;
@@ -91,7 +106,7 @@ public class WrenchEditInventory extends SimpleInventory {
 
         DefaultedList<ItemStack> list = DefaultedList.ofSize(4 * 4, ItemStackUtil.empty());
         for (int i = 1; i < size(); i++)
-            list.set(i, getStack(i));
+            list.set(i - 1, getStack(i));
 
         //CompatRegistryLookup registryLookup = new CompatRegistryLookup(player.getWorld().getRegistryManager());
         NbtCompound nbt = NbtUtil.create();
@@ -100,6 +115,10 @@ public class WrenchEditInventory extends SimpleInventory {
         CustomDataUtil.setNbt(stack, nbt);
     }
 
+    /**
+     * Load item stacks from nbt of the universal wrench stack
+     * Set slots of index 1-16 to loaded stacks from nbt of the universal wrench stack
+     */
     public void updateWrenchContainerByWrenchStack() {
         Optional<Player> optional = getPlayer();
         if (!optional.isPresent() || optional.get().isClient()) return;
@@ -116,14 +135,21 @@ public class WrenchEditInventory extends SimpleInventory {
         InventoryUtil.readNbt(player.getWorld(), nbt, list);
 
         for (int i = 1; i < size(); i++) {
-            super.setStack(i, list.get(i));
+            super.setStack(i, list.get(i - 1));
         }
     }
 
+    /**
+     * If remove stack, write nbt to the universal wrench stack
+     */
     @Override
     public ItemStack removeStack(int slot, int amount) {
         ItemStack stack = super.removeStack(slot, amount);
         updateWrenchStack();
+
+
+        System.out.println("removeStack: " + stack + ", " + amount);
+
         return stack;
     }
 

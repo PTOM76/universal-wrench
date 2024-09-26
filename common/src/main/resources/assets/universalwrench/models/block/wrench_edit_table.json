@@ -1,0 +1,12 @@
+{
+  "parent": "minecraft:block/cube",
+  "textures": {
+    "up": "universalwrench:block/wrench_edit_table_top",
+    "down": "universalwrench:block/wrench_edit_table_down",
+    "east": "universalwrench:block/wrench_edit_table",
+    "north": "universalwrench:block/wrench_edit_table",
+    "particle": "universalwrench:block/wrench_edit_table",
+    "south": "universalwrench:block/wrench_edit_table",
+    "west": "universalwrench:block/wrench_edit_table"
+  }
+}
