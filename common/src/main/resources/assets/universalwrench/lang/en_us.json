@@ -1,4 +1,5 @@
 {
   "item.universalwrench.wrench": "Universal Wrench",
-  "block.universalwrench.wrench_edit_table": "Universal Wrench Edit Table"
+  "block.universalwrench.wrench_edit_table": "Universal Wrench Edit Table",
+  "container.universalwrench.wrench_edit_table": "Wrench Editor"
 }

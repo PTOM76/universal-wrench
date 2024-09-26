@@ -1,5 +1,5 @@
 {
   "variants": {
-    "": { "model": "universalwrench:wrench_edit_table" }
+    "": { "model": "universalwrench:block/wrench_edit_table" }
   }
 }

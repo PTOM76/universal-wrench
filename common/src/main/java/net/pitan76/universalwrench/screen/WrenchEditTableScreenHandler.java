@@ -68,8 +68,8 @@ public class WrenchEditTableScreenHandler extends SimpleScreenHandler {
         addPlayerMainInventorySlots(playerInventory, 8, 84);
         addPlayerHotbarSlots(playerInventory, 8, 142);
 
-        callAddSlot(new UniversalWrenchSlot(inventory, 0, 44, 34));
-        addSlots(inventory, 1, 88, 6, 18, 4, 4);
+        callAddSlot(new UniversalWrenchSlot(inventory, 0, 44, 35));
+        addSlots(inventory, 1, 88, 7, 18, 4, 4);
     }
 
     @Override
