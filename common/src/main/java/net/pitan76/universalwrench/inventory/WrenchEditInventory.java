@@ -147,9 +147,6 @@ public class WrenchEditInventory extends SimpleInventory {
         ItemStack stack = super.removeStack(slot, amount);
         updateWrenchStack();
 
-
-        System.out.println("removeStack: " + stack + ", " + amount);
-
         return stack;
     }
 
