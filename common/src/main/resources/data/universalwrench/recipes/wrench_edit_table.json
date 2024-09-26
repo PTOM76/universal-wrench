@@ -1,3 +1,19 @@
 {
-  "type": "
+  "type": "crafting_shaped",
+  "pattern": [
+    "  I",
+    " S ",
+    "S  "
+  ],
+  "key": {
+    "I": {
+      "item": "universalwrench:wrench"
+    },
+    "S": {
+      "item": "universalwrench:steel_ingot"
+    }
+  },
+  "result": {
+    "item": "universalwrench:wrench_edit_table"
+  }
 }
