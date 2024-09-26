@@ -30,7 +30,7 @@ public class WrenchEditTable extends ExtendBlock implements NamedScreenHandlerFa
 
     @Override
     public Text getDisplayName() {
-        return TextUtil.translatable("container.universalwrench.wrench_edit_table.json");
+        return TextUtil.translatable("container.universalwrench.wrench_edit_table");
     }
 
     @Override
