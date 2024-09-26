@@ -1,16 +1,19 @@
 {
   "type": "crafting_shaped",
   "pattern": [
-    "  I",
     " S ",
-    "S  "
+    "WCW",
+    " S "
   ],
   "key": {
-    "I": {
+    "C": {
+      "item": "minecraft:crafting_table"
+    },
+    "W": {
       "item": "universalwrench:wrench"
     },
     "S": {
-      "item": "universalwrench:steel_ingot"
+      "item": "minecraft:stone"
     }
   },
   "result": {
