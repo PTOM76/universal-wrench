@@ -1,5 +1,6 @@
 package net.pitan76.universalwrench.block;
 
+import net.minecraft.block.Block;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
@@ -14,9 +15,18 @@ import net.pitan76.mcpitanlib.api.gui.args.CreateMenuEvent;
 import net.pitan76.mcpitanlib.api.gui.v2.SimpleScreenHandlerFactory;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
+import net.pitan76.mcpitanlib.core.serialization.CompatMapCodec;
 import net.pitan76.universalwrench.screen.WrenchEditTableScreenHandler;
 
 public class WrenchEditTable extends ExtendBlock implements SimpleScreenHandlerFactory {
+
+    public static final CompatMapCodec<WrenchEditTable> CODEC = CompatMapCodec.createCodecOfExtendBlock(WrenchEditTable::new);
+
+    @Override
+    public CompatMapCodec<? extends Block> getCompatCodec() {
+        return CODEC;
+    }
+
     public WrenchEditTable(CompatibleBlockSettings settings) {
         super(settings);
     }
