@@ -45,17 +45,9 @@ public class WrenchEditTableScreenHandler extends SimpleScreenHandler {
     }
 
     public void loadInventoryFromNbt(NbtCompound nbt, Player player) {
-        // TODO: Generate CompatRegistryLookup from World
-        //CompatRegistryLookup registryLookup = new CompatRegistryLookup(player.getWorld().getRegistryManager());
-
-        // TODO: DefaultedListも改善するべき
         DefaultedList<ItemStack> list = DefaultedList.ofSize(16, ItemStackUtil.empty());
-        InventoryUtil.readNbt(player.getWorld(), nbt, list);
+        InventoryUtil.readNbt(RegistryLookupUtil.getRegistryLookup(player.getWorld()), nbt, list);
 
-        // TODO: InventoryUtil.copy(list, inventory); をつくれや
-        //inventory = IInventory.of(list);
-
-        // TODO: クソ処理なので InventoryUtil.copy 完成後に修正する
         for (int i = 1; i < list.size(); i++) {
             inventory.superSetStack(i, list.get(i));
         }

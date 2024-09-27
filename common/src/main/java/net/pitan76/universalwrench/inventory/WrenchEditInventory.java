@@ -1,22 +1,20 @@
 package net.pitan76.universalwrench.inventory;
 
-import net.minecraft.inventory.SimpleInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.collection.DefaultedList;
 import net.pitan76.mcpitanlib.api.entity.Player;
-import net.pitan76.mcpitanlib.api.util.CustomDataUtil;
-import net.pitan76.mcpitanlib.api.util.InventoryUtil;
-import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
-import net.pitan76.mcpitanlib.api.util.NbtUtil;
+import net.pitan76.mcpitanlib.api.util.*;
+import net.pitan76.mcpitanlib.api.util.inventory.CompatInventory;
+import net.pitan76.mcpitanlib.api.util.inventory.PlayerInventoryUtil;
 import net.pitan76.universalwrench.item.WrenchItem;
 import net.pitan76.universalwrench.screen.WrenchEditTableScreenHandler;
 
 import java.util.Optional;
 
 // TODO: SimpleInventoryをMCPItanLibに実装、setStackなどの関数も用意するべき
-public class WrenchEditInventory extends SimpleInventory {
+public class WrenchEditInventory extends CompatInventory {
 
     public WrenchEditTableScreenHandler screenHandler;
 
@@ -37,8 +35,8 @@ public class WrenchEditInventory extends SimpleInventory {
         if (!optional.isPresent()) return Optional.empty();
 
         WrenchEditTableScreenHandler screenHandler = optional.get();
-        // TODO: ScreenHandlerのPlayerInventoryからわざわざplayerを取り出すのはダメ、getPlayer()をprepare
-        if (screenHandler.playerInventory == null || screenHandler.playerInventory.player == null)
+        if (screenHandler.playerInventory == null
+                || PlayerInventoryUtil.getPlayer(screenHandler.playerInventory).getEntity() == null)
             return Optional.empty();
 
         return Optional.of(new Player(screenHandler.playerInventory.player));
@@ -65,13 +63,6 @@ public class WrenchEditInventory extends SimpleInventory {
 
         // write nbt to stack
         updateWrenchStack();
-    }
-
-    /**
-     * super method of setStack(slot, stack)
-     */
-    public void superSetStack(int slot, ItemStack stack) {
-        super.setStack(slot, stack);
     }
 
     /**
@@ -108,9 +99,8 @@ public class WrenchEditInventory extends SimpleInventory {
         for (int i = 1; i < size(); i++)
             list.set(i - 1, getStack(i));
 
-        //CompatRegistryLookup registryLookup = new CompatRegistryLookup(player.getWorld().getRegistryManager());
         NbtCompound nbt = NbtUtil.create();
-        InventoryUtil.writeNbt(player.getWorld(), nbt, list);
+        InventoryUtil.writeNbt(RegistryLookupUtil.getRegistryLookup(player.getWorld()), nbt, list);
 
         CustomDataUtil.setNbt(stack, nbt);
     }
@@ -132,7 +122,7 @@ public class WrenchEditInventory extends SimpleInventory {
         if (nbt == null) return;
 
         DefaultedList<ItemStack> list = DefaultedList.ofSize(4 * 4, ItemStackUtil.empty());
-        InventoryUtil.readNbt(player.getWorld(), nbt, list);
+        InventoryUtil.readNbt(RegistryLookupUtil.getRegistryLookup(player.getWorld()), nbt, list);
 
         for (int i = 1; i < size(); i++) {
             super.setStack(i, list.get(i - 1));
