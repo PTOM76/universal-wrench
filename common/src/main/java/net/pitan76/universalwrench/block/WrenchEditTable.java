@@ -46,7 +46,7 @@ public class WrenchEditTable extends ExtendBlock implements SimpleScreenHandlerF
     }
 
     @Override
-    public Text getDisplayName(DisplayNameArgs displayNameArgs) {
+    public Text getDisplayName(DisplayNameArgs args) {
         return TextUtil.translatable("container.universalwrench.wrench_edit_table");
     }
 
