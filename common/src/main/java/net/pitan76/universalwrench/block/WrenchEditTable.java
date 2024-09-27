@@ -1,9 +1,6 @@
 package net.pitan76.universalwrench.block;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
-import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
@@ -12,12 +9,14 @@ import net.pitan76.mcpitanlib.api.block.ExtendBlock;
 import net.pitan76.mcpitanlib.api.event.block.BlockUseEvent;
 import net.pitan76.mcpitanlib.api.event.block.ItemScattererUtil;
 import net.pitan76.mcpitanlib.api.event.block.StateReplacedEvent;
+import net.pitan76.mcpitanlib.api.event.container.factory.DisplayNameArgs;
+import net.pitan76.mcpitanlib.api.gui.args.CreateMenuEvent;
+import net.pitan76.mcpitanlib.api.gui.v2.SimpleScreenHandlerFactory;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.pitan76.universalwrench.screen.WrenchEditTableScreenHandler;
 
-// TODO: NamedScreenHandlerFactoryもMCPitanLibに実装する
-public class WrenchEditTable extends ExtendBlock implements NamedScreenHandlerFactory {
+public class WrenchEditTable extends ExtendBlock implements SimpleScreenHandlerFactory {
     public WrenchEditTable(CompatibleBlockSettings settings) {
         super(settings);
     }
@@ -33,16 +32,6 @@ public class WrenchEditTable extends ExtendBlock implements NamedScreenHandlerFa
     }
 
     @Override
-    public Text getDisplayName() {
-        return TextUtil.translatable("container.universalwrench.wrench_edit_table");
-    }
-
-    @Override
-    public ScreenHandler createMenu(int syncId, PlayerInventory playerInventory, PlayerEntity player) {
-        return new WrenchEditTableScreenHandler(syncId, playerInventory);
-    }
-
-    @Override
     public void onStateReplaced(StateReplacedEvent e) {
         if (!e.isSameState() && e.hasInventory()) {
             Inventory inventory = (Inventory) e.getBlockEntity();
@@ -54,5 +43,15 @@ public class WrenchEditTable extends ExtendBlock implements NamedScreenHandlerFa
             e.updateComparators();
         }
         super.onStateReplaced(e);
+    }
+
+    @Override
+    public Text getDisplayName(DisplayNameArgs displayNameArgs) {
+        return TextUtil.translatable("container.universalwrench.wrench_edit_table");
+    }
+
+    @Override
+    public ScreenHandler createMenu(CreateMenuEvent e) {
+        return new WrenchEditTableScreenHandler(e.syncId, e.playerInventory);
     }
 }

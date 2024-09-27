@@ -13,7 +13,6 @@ import net.pitan76.universalwrench.screen.WrenchEditTableScreenHandler;
 
 import java.util.Optional;
 
-// TODO: SimpleInventoryをMCPItanLibに実装、setStackなどの関数も用意するべき
 public class WrenchEditInventory extends CompatInventory {
 
     public WrenchEditTableScreenHandler screenHandler;
