@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[40,)"
+loaderVersion = "[1,)"
 license = "Apache-2.0"
 
 [[mods]]
@@ -16,23 +16,22 @@ Consolidate wrenches into one
 '''
 
 [[dependencies.${mod_id}]]
-modId = "forge"
-mandatory = true
-versionRange = "[40,)"
+modId = "neoforge"
+type = "required"
+versionRange = "[20,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.${mod_id}]]
 modId = "minecraft"
-mandatory = true
+type = "required"
 versionRange = "[1.16,)"
 ordering = "NONE"
 side = "BOTH"
 
 [[dependencies.${mod_id}]]
 modId = "mcpitanlib"
-mandatory = true
+type = "required"
 versionRange = "[2.3.0,)"
 ordering = "BEFORE"
 side = "BOTH"
-
