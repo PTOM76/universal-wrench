@@ -3,9 +3,9 @@ package net.pitan76.universalwrench.inventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.collection.DefaultedList;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.util.*;
+import net.pitan76.mcpitanlib.api.util.collection.ItemStackList;
 import net.pitan76.mcpitanlib.api.util.inventory.CompatInventory;
 import net.pitan76.mcpitanlib.api.util.inventory.PlayerInventoryUtil;
 import net.pitan76.universalwrench.item.WrenchItem;
@@ -69,8 +69,7 @@ public class WrenchEditInventory extends CompatInventory {
      */
     public void clearWrenchContainer() {
         for (int i = 1; i < size(); i++) {
-            super.setStack(i, ItemStackUtil.empty());
-
+            super.superSetStack(i, ItemStackUtil.empty());
         }
     }
 
@@ -94,9 +93,9 @@ public class WrenchEditInventory extends CompatInventory {
         ItemStack stack = getWrenchStack();
         if (stack.isEmpty() || !(stack.getItem() instanceof WrenchItem)) return;
 
-        DefaultedList<ItemStack> list = DefaultedList.ofSize(4 * 4, ItemStackUtil.empty());
+        ItemStackList list = ItemStackList.ofSize(4 * 4, ItemStackUtil.empty());
         for (int i = 1; i < size(); i++)
-            list.set(i - 1, getStack(i));
+            list.set(i - 1, super.getStack(i));
 
         NbtCompound nbt = NbtUtil.create();
         InventoryUtil.writeNbt(RegistryLookupUtil.getRegistryLookup(player.getWorld()), nbt, list);
@@ -120,11 +119,11 @@ public class WrenchEditInventory extends CompatInventory {
         NbtCompound nbt = CustomDataUtil.getNbt(stack);
         if (nbt == null) return;
 
-        DefaultedList<ItemStack> list = DefaultedList.ofSize(4 * 4, ItemStackUtil.empty());
+        ItemStackList list = ItemStackList.ofSize(4 * 4, ItemStackUtil.empty());
         InventoryUtil.readNbt(RegistryLookupUtil.getRegistryLookup(player.getWorld()), nbt, list);
 
         for (int i = 1; i < size(); i++) {
-            super.setStack(i, list.get(i - 1));
+            super.superSetStack(i, list.get(i - 1));
         }
     }
 

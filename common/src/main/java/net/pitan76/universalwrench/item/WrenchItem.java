@@ -59,7 +59,7 @@ public class WrenchItem extends ExtendItem {
             ItemStack wrench = wrenches.get(i);
 
             player.setStackInHand(hand, wrench);
-            ActionResult result = BlockStateUtil.onUse(state, world, player, e.getDirection(), e.getPos());
+            ActionResult result = InteractUtil.useBlock(state, world, player, e.getDirection(), e.getPos());
             player.setStackInHand(hand, stack);
 
             if (result != ActionResult.PASS) {
@@ -132,7 +132,7 @@ public class WrenchItem extends ExtendItem {
             ItemStack wrench = wrenches.get(i);
 
             player.setStackInHand(hand, wrench);
-            ActionResult result = wrench.getItem().useOnBlock(e.toIUC());
+            ActionResult result = InteractUtil.useItemOnBlock(wrench.getItem(), e);
             player.setStackInHand(hand, stack);
 
             if (result != ActionResult.PASS) {

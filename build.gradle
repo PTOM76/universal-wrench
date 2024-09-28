@@ -22,37 +22,8 @@ subprojects {
         maven { url "https://maven.neoforged.net/releases" }
         maven { url "https://maven.pitan76.net/" }
         maven { url "https://maven.shedaniel.me/" }
-
-        maven {
-            name "Modmaven"
-            url "https://modmaven.dev/"
-            content {
-                includeGroup 'appeng'
-            }
-        }
-
         maven { url "https://cursemaven.com" }
-
-        //gt
-        maven { url = 'https://maven.firstdarkdev.xyz/snapshots'
-            content {
-                includeGroup 'com.lowdragmc.ldlib'
-                includeGroup 'com.gregtechceu.gtceu'
-                includeGroup 'dev.toma.configuration'
-            }
-        }
-
-        maven {
-            url "https://maven.saps.dev/releases/"
-            content {
-                includeGroup "dev.latvian.mods"
-            }
-        }
-
         maven { url "https://maven.terraformersmc.com/" }
-
-        maven { url "https://maven.cafeteria.dev/releases"}
-
         mavenLocal()
     }
 
