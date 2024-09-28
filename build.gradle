@@ -71,7 +71,7 @@ subprojects {
             curseforge {
                 apiKey = System.getenv("CURSEFORGE_TOKEN")
                 project {
-                    id = '1103376'
+                    id = '1107294'
                     changelog = rootProject.changelog + "\nMCPitanLib version: " + mcpitanlib_version.split(":")[1]
                     releaseType = 'release'
 

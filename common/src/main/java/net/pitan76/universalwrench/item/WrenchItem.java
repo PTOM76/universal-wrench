@@ -83,7 +83,7 @@ public class WrenchItem extends ExtendItem {
         if (!(universalWrenchStack.getItem() instanceof WrenchItem) || !CustomDataUtil.hasNbt(universalWrenchStack))
             return ItemStackList.of();
 
-        ItemStackList list = ItemStackList.ofSize(4 * 4);
+        ItemStackList list = ItemStackList.ofSize(4 * 4, ItemStackUtil.empty());
 
         NbtCompound nbt = CustomDataUtil.getOrCreateNbt(universalWrenchStack);
         InventoryUtil.readNbt(RegistryLookupUtil.getRegistryLookup(world), nbt, list);
@@ -127,6 +127,7 @@ public class WrenchItem extends ExtendItem {
         World world = e.getWorld();
 
         ItemStackList wrenches = getWrenches(world, stack);
+
         for (int i = 0; i < wrenches.size(); i++) {
             ItemStack wrench = wrenches.get(i);
 
@@ -142,7 +143,7 @@ public class WrenchItem extends ExtendItem {
             }
         }
 
-        return super.onRightClickOnBlock(e);
+        return e.pass();
     }
 
     @Override
