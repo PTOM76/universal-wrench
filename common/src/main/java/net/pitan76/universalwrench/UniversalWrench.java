@@ -14,7 +14,6 @@ import net.pitan76.mcpitanlib.api.registry.v2.CompatRegistryV2;
 import net.pitan76.mcpitanlib.api.util.CompatIdentifier;
 import net.pitan76.mcpitanlib.api.util.ItemUtil;
 import net.pitan76.universalwrench.block.WrenchEditTable;
-import net.pitan76.universalwrench.item.DamageableWrenchItem;
 import net.pitan76.universalwrench.item.WrenchItem;
 import net.pitan76.universalwrench.screen.WrenchEditTableScreenHandler;
 
@@ -29,11 +28,9 @@ public class UniversalWrench extends CommonModInitializer {
 
     public static RegistryResult<Block> WRENCH_EDIT_TABLE_BLOCK;
     
-    //public static RegistryResult<Item> DAMAGEABLE_WRENCH;
     public static RegistryResult<Item> WRENCH;
     public static RegistryResult<Item> WRENCH_EDIT_TABLE_ITEM;
 
-    // 関数 オーバライド(上書き)
     @Override
     public void init() {
         INSTANCE = this;
@@ -44,9 +41,8 @@ public class UniversalWrench extends CommonModInitializer {
         WRENCH_EDIT_TABLE_SCREEN_HANDLER = registry.registerScreenHandlerType(_id("wrench_screen_handler"), () -> new SimpleScreenHandlerTypeBuilder<>(WrenchEditTableScreenHandler::new).build());
 
         WRENCH_EDIT_TABLE_BLOCK = registry.registerBlock(_id("wrench_edit_table"), () -> new WrenchEditTable(CompatibleBlockSettings.of(CompatibleMaterial.METAL).strength(1.5f, 3.0f)));
-        WRENCH_EDIT_TABLE_ITEM = registry.registerItem(_id("wrench_edit_table"), () -> ItemUtil.ofBlock(WRENCH_EDIT_TABLE_BLOCK.getOrNull(), CompatibleItemSettings.of().addGroup(DefaultItemGroups.DECORATIONS)));
+        WRENCH_EDIT_TABLE_ITEM = registry.registerItem(_id("wrench_edit_table"), () -> ItemUtil.ofBlock(WRENCH_EDIT_TABLE_BLOCK.getOrNull(), CompatibleItemSettings.of().addGroup(DefaultItemGroups.DECORATIONS, _id("wrench_edit_table"))));
         
-        //DAMAGEABLE_WRENCH = registry.registerItem(_id("damageable_wrench"), () -> new DamageableWrenchItem(100));
         WRENCH = registry.registerItem(_id("wrench"), WrenchItem::new);
 
     }
