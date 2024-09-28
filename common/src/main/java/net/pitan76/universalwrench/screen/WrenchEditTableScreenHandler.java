@@ -72,6 +72,8 @@ public class WrenchEditTableScreenHandler extends SimpleScreenHandler {
 
     @Override
     public void close(Player player) {
+        if (!inventory.getWrenchStack().isEmpty())
+            player.giveStack(inventory.getWrenchStack());
         super.close(player);
     }
 

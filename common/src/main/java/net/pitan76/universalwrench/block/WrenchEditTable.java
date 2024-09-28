@@ -1,6 +1,5 @@
 package net.pitan76.universalwrench.block;
 
-import net.minecraft.block.Block;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
@@ -23,7 +22,7 @@ public class WrenchEditTable extends ExtendBlock implements SimpleScreenHandlerF
     public static final CompatMapCodec<WrenchEditTable> CODEC = CompatMapCodec.createCodecOfExtendBlock(WrenchEditTable::new);
 
     @Override
-    public CompatMapCodec<? extends Block> getCompatCodec() {
+    public CompatMapCodec<? extends WrenchEditTable> getCompatCodec() {
         return CODEC;
     }
 
