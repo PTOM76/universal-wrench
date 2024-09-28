@@ -3,10 +3,8 @@ package net.pitan76.universalwrench.screen;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NbtCompound;
 import net.minecraft.screen.ScreenHandlerType;
 import net.minecraft.screen.slot.Slot;
-import net.minecraft.util.collection.DefaultedList;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.gui.SimpleScreenHandler;
 import net.pitan76.mcpitanlib.api.util.*;
@@ -26,31 +24,8 @@ public class WrenchEditTableScreenHandler extends SimpleScreenHandler {
     public ItemStack stack = ItemStackUtil.empty();
 
     public WrenchEditTableScreenHandler(int syncId, PlayerInventory playerInventory) {
-        this(UniversalWrench.WRENCH_EDIT_TABLE_SCREEN_HANDLER.getOrNull(), syncId, playerInventory, new WrenchEditInventory(1 + 16));
-
-        //if (playerInventory.player == null) return;
-        //Player player = new Player(playerInventory.player);
-
-        //Optional<ItemStack> optional = player.getCurrentHandItem();
-
-        //if (!optional.isPresent()) return;
-
-        //ItemStack stack = optional.get();
-        //if (stack.isEmpty() || !(stack.getItem() instanceof WrenchItem)) return;
-        //this.stack = stack;
-        //if (!CustomDataUtil.hasNbt(stack))
-            return;
-
-        //loadInventoryFromNbt(CustomDataUtil.getNbt(stack), player);
-    }
-
-    public void loadInventoryFromNbt(NbtCompound nbt, Player player) {
-        DefaultedList<ItemStack> list = DefaultedList.ofSize(16, ItemStackUtil.empty());
-        InventoryUtil.readNbt(RegistryLookupUtil.getRegistryLookup(player.getWorld()), nbt, list);
-
-        for (int i = 1; i < list.size(); i++) {
-            inventory.superSetStack(i, list.get(i));
-        }
+        this(UniversalWrench.WRENCH_EDIT_TABLE_SCREEN_HANDLER.getOrNull(), syncId, playerInventory
+                , new WrenchEditInventory(1 + 16));
     }
 
     protected WrenchEditTableScreenHandler(ScreenHandlerType<?> type, int syncId, PlayerInventory playerInventory, WrenchEditInventory inventory) {
@@ -68,6 +43,31 @@ public class WrenchEditTableScreenHandler extends SimpleScreenHandler {
 
         callAddSlot(new UniversalWrenchSlot(inventory, 0, 44, 35));
         addWrenchInputSlots(inventory, 1, 88, 7, 18, 4, 4);
+    }
+
+    @Override
+    public ItemStack quickMoveOverride(Player player, int index) {
+        Slot slot = ScreenHandlerUtil.getSlot(this, index);
+        if (SlotUtil.hasStack(slot)) {
+            ItemStack originalStack = SlotUtil.getStack(slot);
+
+            // Inventory
+            if (index < 36) {
+                if (!this.callInsertItem(originalStack, 36, 53, false)) {
+                    return ItemStackUtil.empty();
+                }
+
+            } else if (!this.callInsertItem(originalStack, 0, 35, false)) {
+                return ItemStackUtil.empty();
+            }
+
+            if (ItemStackUtil.isEmpty(originalStack)) {
+                SlotUtil.setStack(slot, ItemStackUtil.empty());
+            } else {
+                SlotUtil.markDirty(slot);
+            }
+        }
+        return ItemStackUtil.empty();
     }
 
     @Override
