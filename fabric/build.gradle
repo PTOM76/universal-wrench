@@ -33,6 +33,7 @@ dependencies {
 
     modImplementation 'RebornCore:RebornCore-1.20:5.10.4'
     modImplementation 'TechReborn:TechReborn-1.20:5.10.4'
+    modImplementation 'net.pitan76:itemalchemy:1.0.5'
 }
 
 processResources {
