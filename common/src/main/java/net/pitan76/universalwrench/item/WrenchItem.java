@@ -57,6 +57,7 @@ public class WrenchItem extends ExtendItem {
         ItemStackList wrenches = getWrenches(world, stack);
         for (int i = 0; i < wrenches.size(); i++) {
             ItemStack wrench = wrenches.get(i);
+            if (wrench.isEmpty()) continue;
 
             player.setStackInHand(hand, wrench);
             ActionResult result = InteractUtil.useBlock(state, world, player, e.getDirection(), e.getPos());
@@ -130,6 +131,7 @@ public class WrenchItem extends ExtendItem {
 
         for (int i = 0; i < wrenches.size(); i++) {
             ItemStack wrench = wrenches.get(i);
+            if (wrench.isEmpty()) continue;
 
             player.setStackInHand(hand, wrench);
             ActionResult result = InteractUtil.useItemOnBlock(wrench.getItem(), e);
