@@ -41,7 +41,7 @@ public class UniversalWrench extends CommonModInitializer {
         WRENCH_EDIT_TABLE_SCREEN_HANDLER = registry.registerScreenHandlerType(_id("wrench_screen_handler"), () -> new SimpleScreenHandlerTypeBuilder<>(WrenchEditTableScreenHandler::new).build());
 
         WRENCH_EDIT_TABLE_BLOCK = registry.registerBlock(_id("wrench_edit_table"), () -> new WrenchEditTable(CompatibleBlockSettings.of(CompatibleMaterial.METAL).strength(1.5f, 3.0f)));
-        WRENCH_EDIT_TABLE_ITEM = registry.registerItem(_id("wrench_edit_table"), () -> ItemUtil.ofBlock(WRENCH_EDIT_TABLE_BLOCK.getOrNull(), CompatibleItemSettings.of().addGroup(DefaultItemGroups.DECORATIONS, _id("wrench_edit_table"))));
+        WRENCH_EDIT_TABLE_ITEM = registry.registerItem(_id("wrench_edit_table"), () -> ItemUtil.ofBlock(WRENCH_EDIT_TABLE_BLOCK.getOrNull(), CompatibleItemSettings.of().addGroup(DefaultItemGroups.FUNCTIONAL, _id("wrench_edit_table"))));
         
         WRENCH = registry.registerItem(_id("wrench"), WrenchItem::new);
 
