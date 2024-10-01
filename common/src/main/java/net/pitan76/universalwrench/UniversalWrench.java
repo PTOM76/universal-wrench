@@ -17,6 +17,8 @@ import net.pitan76.universalwrench.block.WrenchEditTable;
 import net.pitan76.universalwrench.item.WrenchItem;
 import net.pitan76.universalwrench.screen.WrenchEditTableScreenHandler;
 
+import java.util.function.Supplier;
+
 public class UniversalWrench extends CommonModInitializer {
     public static final String MOD_ID = "universalwrench";
     public static final String MOD_NAME = "Universal Wrench";
@@ -24,7 +26,7 @@ public class UniversalWrench extends CommonModInitializer {
     public static UniversalWrench INSTANCE;
     public static CompatRegistryV2 registry;
 
-    public static RegistryResult<ScreenHandlerType<?>> WRENCH_EDIT_TABLE_SCREEN_HANDLER;
+    public static Supplier<ScreenHandlerType<WrenchEditTableScreenHandler>> WRENCH_EDIT_TABLE_SCREEN_HANDLER;
 
     public static RegistryResult<Block> WRENCH_EDIT_TABLE_BLOCK;
     
@@ -38,7 +40,7 @@ public class UniversalWrench extends CommonModInitializer {
 
         UWConfig.init();
 
-        WRENCH_EDIT_TABLE_SCREEN_HANDLER = registry.registerScreenHandlerType(_id("wrench_screen_handler"), () -> new SimpleScreenHandlerTypeBuilder<>(WrenchEditTableScreenHandler::new).build());
+        WRENCH_EDIT_TABLE_SCREEN_HANDLER = registry.registerScreenHandlerTypeSavingGenerics(_id("wrench_screen_handler"), () -> new SimpleScreenHandlerTypeBuilder<>(WrenchEditTableScreenHandler::new).build());
 
         WRENCH_EDIT_TABLE_BLOCK = registry.registerBlock(_id("wrench_edit_table"), () -> new WrenchEditTable(CompatibleBlockSettings.of(CompatibleMaterial.METAL).strength(1.5f, 3.0f)));
         WRENCH_EDIT_TABLE_ITEM = registry.registerItem(_id("wrench_edit_table"), () -> ItemUtil.ofBlock(WRENCH_EDIT_TABLE_BLOCK.getOrNull(), CompatibleItemSettings.of().addGroup(DefaultItemGroups.FUNCTIONAL, _id("wrench_edit_table"))));

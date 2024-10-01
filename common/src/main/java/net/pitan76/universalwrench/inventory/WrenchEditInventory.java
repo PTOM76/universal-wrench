@@ -1,6 +1,5 @@
 package net.pitan76.universalwrench.inventory;
 
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.pitan76.mcpitanlib.api.entity.Player;
@@ -48,7 +47,7 @@ public class WrenchEditInventory extends CompatInventory {
      */
     @Override
     public void setStack(int slot, ItemStack stack) {
-        super.setStack(slot, stack);
+        superSetStack(slot, stack);
         if (slot == 0) {
             if (stack.isEmpty()) {
                 clearWrenchContainer();
@@ -78,7 +77,7 @@ public class WrenchEditInventory extends CompatInventory {
      * @return universal wrench stack
      */
     public ItemStack getWrenchStack() {
-        return super.getStack(0);
+        return super.callGetStack(0);
     }
 
     /**
@@ -95,7 +94,7 @@ public class WrenchEditInventory extends CompatInventory {
 
         ItemStackList list = ItemStackList.ofSize(4 * 4, ItemStackUtil.empty());
         for (int i = 1; i < size(); i++)
-            list.set(i - 1, super.getStack(i));
+            list.set(i - 1, super.callGetStack(i));
 
         NbtCompound nbt = NbtUtil.create();
         InventoryUtil.writeNbt(RegistryLookupUtil.getRegistryLookup(player.getWorld()), nbt, list);
@@ -136,15 +135,5 @@ public class WrenchEditInventory extends CompatInventory {
         updateWrenchStack();
 
         return stack;
-    }
-
-    @Override
-    public ItemStack removeStack(int slot) {
-        return super.removeStack(slot);
-    }
-
-    @Override
-    public ItemStack removeItem(Item item, int count) {
-        return super.removeItem(item, count);
     }
 }

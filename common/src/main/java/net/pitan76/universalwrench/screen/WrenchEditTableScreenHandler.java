@@ -21,10 +21,8 @@ public class WrenchEditTableScreenHandler extends SimpleScreenHandler {
     public PlayerInventory playerInventory;
     public WrenchEditInventory inventory;
 
-    public ItemStack stack = ItemStackUtil.empty();
-
     public WrenchEditTableScreenHandler(int syncId, PlayerInventory playerInventory) {
-        this(UniversalWrench.WRENCH_EDIT_TABLE_SCREEN_HANDLER.getOrNull(), syncId, playerInventory
+        this(UniversalWrench.WRENCH_EDIT_TABLE_SCREEN_HANDLER.get(), syncId, playerInventory
                 , new WrenchEditInventory(1 + 16));
     }
 
