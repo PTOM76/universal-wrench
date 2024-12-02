@@ -96,7 +96,6 @@ public class WrenchEditTableScreenHandler extends SimpleScreenHandler {
         }
 
         List<Slot> slots = new ArrayList<>();
-
         for(int x = 0; x < amount; ++x) {
             Slot slot = this.callAddSlot(new WrenchInputSlot(inventory, firstIndex + x, firstX + x * size, y));
             slots.add(slot);

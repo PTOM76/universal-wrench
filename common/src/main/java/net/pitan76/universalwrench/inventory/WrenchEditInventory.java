@@ -67,7 +67,8 @@ public class WrenchEditInventory extends CompatInventory {
      * Clear wrench container (slots of index 1-16)
      */
     public void clearWrenchContainer() {
-        for (int i = 1; i < size(); i++) {
+        int size = getSize();
+        for (int i = 1; i < size; i++) {
             super.superSetStack(i, ItemStackUtil.empty());
         }
     }
@@ -93,7 +94,9 @@ public class WrenchEditInventory extends CompatInventory {
         if (stack.isEmpty() || !(stack.getItem() instanceof WrenchItem)) return;
 
         ItemStackList list = ItemStackList.ofSize(4 * 4, ItemStackUtil.empty());
-        for (int i = 1; i < size(); i++)
+
+        int size = getSize();
+        for (int i = 1; i < size; i++)
             list.set(i - 1, super.callGetStack(i));
 
         NbtCompound nbt = NbtUtil.create();
@@ -121,7 +124,8 @@ public class WrenchEditInventory extends CompatInventory {
         ItemStackList list = ItemStackList.ofSize(4 * 4, ItemStackUtil.empty());
         InventoryUtil.readNbt(RegistryLookupUtil.getRegistryLookup(player.getWorld()), nbt, list);
 
-        for (int i = 1; i < size(); i++) {
+        int size = getSize();
+        for (int i = 1; i < size; i++) {
             super.superSetStack(i, list.get(i - 1));
         }
     }

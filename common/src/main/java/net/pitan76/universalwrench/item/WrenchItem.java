@@ -4,9 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
 import net.pitan76.mcpitanlib.api.event.item.ItemUseEvent;
@@ -15,23 +13,22 @@ import net.pitan76.mcpitanlib.api.event.item.ItemUseOnEntityEvent;
 import net.pitan76.mcpitanlib.api.event.result.EventResult;
 import net.pitan76.mcpitanlib.api.event.v0.InteractionEventRegistry;
 import net.pitan76.mcpitanlib.api.event.v0.event.ClickBlockEvent;
-import net.pitan76.mcpitanlib.api.item.CompatibleItemSettings;
-import net.pitan76.mcpitanlib.api.item.DefaultItemGroups;
-import net.pitan76.mcpitanlib.api.item.ExtendItem;
+import net.pitan76.mcpitanlib.api.item.v2.CompatItem;
+import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.util.*;
 import net.pitan76.mcpitanlib.api.util.collection.ItemStackList;
+import net.pitan76.mcpitanlib.midohra.item.ItemGroups;
 
 import static net.pitan76.universalwrench.UniversalWrench._id;
 
-public class WrenchItem extends ExtendItem {
+public class WrenchItem extends CompatItem {
     public WrenchItem(CompatibleItemSettings settings) {
         super(settings);
         InteractionEventRegistry.registerRightClickBlock(this::onRightClickOnBlockEvent);
     }
 
     public WrenchItem() {
-        this(CompatibleItemSettings.of().maxCount(1)
-                .addGroup(DefaultItemGroups.TOOLS, _id("wrench")));
+        this(CompatibleItemSettings.of(_id("wrench")).maxCount(1).addGroup(ItemGroups.TOOLS));
     }
 
     /**
@@ -60,14 +57,14 @@ public class WrenchItem extends ExtendItem {
             if (wrench.isEmpty()) continue;
 
             player.setStackInHand(hand, wrench);
-            ActionResult result = InteractUtil.useBlock(state, world, player, e.getDirection(), e.getPos());
+            CompatActionResult result = InteractUtil.useBlock(state, world, player, e.getDirection(), e.getPos());
             player.setStackInHand(hand, stack);
 
-            if (result != ActionResult.PASS) {
+            if (!result.equals(CompatActionResult.PASS)) {
                 wrenches.set(i, wrench);
                 setWrenches(world, stack, wrenches);
 
-                return action2event(result);
+                return result.toEventResult();
             }
         }
 
@@ -105,23 +102,8 @@ public class WrenchItem extends ExtendItem {
         InventoryUtil.writeNbt(RegistryLookupUtil.getRegistryLookup(world), nbt, wrenches);
     }
 
-    public static EventResult action2event(ActionResult result) {
-        switch (result) {
-            case SUCCESS:
-            case CONSUME:
-            case CONSUME_PARTIAL:
-                return EventResult.success();
-            case PASS:
-                return EventResult.pass();
-            case FAIL:
-                return EventResult.fail();
-            default:
-                throw new AssertionError();
-        }
-    }
-
     @Override
-    public ActionResult onRightClickOnBlock(ItemUseOnBlockEvent e) {
+    public CompatActionResult onRightClickOnBlock(ItemUseOnBlockEvent e) {
         Player player = e.getPlayer();
         Hand hand = e.getHand();
         ItemStack stack = e.getStack();
@@ -134,10 +116,10 @@ public class WrenchItem extends ExtendItem {
             if (wrench.isEmpty()) continue;
 
             player.setStackInHand(hand, wrench);
-            ActionResult result = InteractUtil.useItemOnBlock(wrench.getItem(), e);
+            CompatActionResult result = InteractUtil.useItemOnBlock(wrench.getItem(), e);
             player.setStackInHand(hand, stack);
 
-            if (result != ActionResult.PASS) {
+            if (!result.equals(CompatActionResult.PASS)) {
                 wrenches.set(i, wrench);
                 setWrenches(world, stack, wrenches);
 
@@ -149,12 +131,12 @@ public class WrenchItem extends ExtendItem {
     }
 
     @Override
-    public TypedActionResult<ItemStack> onRightClick(ItemUseEvent e) {
+    public StackActionResult onRightClick(ItemUseEvent e) {
         return super.onRightClick(e);
     }
 
     @Override
-    public ActionResult onRightClickOnEntity(ItemUseOnEntityEvent e) {
+    public CompatActionResult onRightClickOnEntity(ItemUseOnEntityEvent e) {
         return super.onRightClickOnEntity(e);
     }
 }

@@ -37,9 +37,9 @@ public class UWConfig {
 
         denyBlockItem = config.getBooleanOrCreate("deny_block_item", true);
 
-        blackListedItems = (List<String>) config.getOrCreate("blacklist_items", new ArrayList<>());
-        whiteListedItems = (List<String>) config.getOrCreate("whitelist_items", new ArrayList<>());
-        blackNamespaces = (List<String>) config.getOrCreate("deny_namespaces", new ArrayList<>());
+        blackListedItems = (List) config.getOrCreate("blacklist_items", new ArrayList<>());
+        whiteListedItems = (List) config.getOrCreate("whitelist_items", new ArrayList<>());
+        blackNamespaces = (List) config.getOrCreate("deny_namespaces", new ArrayList<>());
 
         if (blackListedItems.isEmpty() || whiteListedItems.isEmpty() || blackNamespaces.isEmpty())
             save();

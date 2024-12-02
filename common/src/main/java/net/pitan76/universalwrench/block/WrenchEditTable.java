@@ -3,23 +3,24 @@ package net.pitan76.universalwrench.block;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.screen.ScreenHandler;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.pitan76.mcpitanlib.api.block.CompatibleBlockSettings;
-import net.pitan76.mcpitanlib.api.block.ExtendBlock;
+import net.pitan76.mcpitanlib.api.block.v2.CompatBlock;
+import net.pitan76.mcpitanlib.api.block.v2.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.event.block.BlockUseEvent;
 import net.pitan76.mcpitanlib.api.event.block.ItemScattererUtil;
 import net.pitan76.mcpitanlib.api.event.block.StateReplacedEvent;
 import net.pitan76.mcpitanlib.api.event.container.factory.DisplayNameArgs;
 import net.pitan76.mcpitanlib.api.gui.args.CreateMenuEvent;
 import net.pitan76.mcpitanlib.api.gui.v2.SimpleScreenHandlerFactory;
+import net.pitan76.mcpitanlib.api.util.CompatActionResult;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.pitan76.mcpitanlib.core.serialization.CompatMapCodec;
+import net.pitan76.mcpitanlib.core.serialization.codecs.CompatBlockMapCodecUtil;
 import net.pitan76.universalwrench.screen.WrenchEditTableScreenHandler;
 
-public class WrenchEditTable extends ExtendBlock implements SimpleScreenHandlerFactory {
+public class WrenchEditTable extends CompatBlock implements SimpleScreenHandlerFactory {
 
-    public static final CompatMapCodec<WrenchEditTable> CODEC = CompatMapCodec.createCodecOfExtendBlock(WrenchEditTable::new);
+    public static final CompatMapCodec<WrenchEditTable> CODEC = CompatBlockMapCodecUtil.createCodec(WrenchEditTable::new);
 
     @Override
     public CompatMapCodec<? extends WrenchEditTable> getCompatCodec() {
@@ -31,12 +32,8 @@ public class WrenchEditTable extends ExtendBlock implements SimpleScreenHandlerF
     }
 
     @Override
-    public ActionResult onRightClick(BlockUseEvent e) {
-        if (e.isClient())
-            return e.success();
-
+    public CompatActionResult onRightClick(BlockUseEvent e) {
         e.player.openMenu(this);
-
         return e.success();
     }
 
