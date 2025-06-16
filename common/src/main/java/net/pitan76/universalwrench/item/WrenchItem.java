@@ -16,7 +16,9 @@ import net.pitan76.mcpitanlib.api.event.v0.event.ClickBlockEvent;
 import net.pitan76.mcpitanlib.api.item.v2.CompatItem;
 import net.pitan76.mcpitanlib.api.item.v2.CompatibleItemSettings;
 import net.pitan76.mcpitanlib.api.util.*;
+import net.pitan76.mcpitanlib.api.util.block.BlockUtil;
 import net.pitan76.mcpitanlib.api.util.collection.ItemStackList;
+import net.pitan76.mcpitanlib.api.util.item.ItemUtil;
 import net.pitan76.mcpitanlib.midohra.item.ItemGroups;
 
 import static net.pitan76.universalwrench.UniversalWrench._id;
@@ -32,7 +34,7 @@ public class WrenchItem extends CompatItem {
     }
 
     /**
-     * Right click on block event
+     * Right-click on block event
      * @param e Click block event
      * @return Event result
      */
@@ -51,7 +53,8 @@ public class WrenchItem extends CompatItem {
         Hand hand = e.getHand();
         World world = e.getWorld();
 
-        ItemStackList wrenches = getWrenches(world, stack);
+        String namespace = BlockUtil.toId(block).getNamespace();
+        ItemStackList wrenches = getWrenchesWithSortByNamespace(world, stack, namespace);
         for (int i = 0; i < wrenches.size(); i++) {
             ItemStack wrench = wrenches.get(i);
             if (wrench.isEmpty()) continue;
@@ -69,6 +72,43 @@ public class WrenchItem extends CompatItem {
         }
 
         return EventResult.pass();
+    }
+
+    /**
+     * Sort wrenches by namespace
+     * @param wrenches List of wrenches
+     * @param namespace Namespace to sort by
+     * @return Sorted list of wrenches
+     */
+    public static ItemStackList sortByNamespace(ItemStackList wrenches, String namespace) {
+        if (wrenches.isEmpty() || namespace == null || namespace.isEmpty()) return wrenches;
+
+        ItemStackList sorted = ItemStackList.ofSize(wrenches.size(), ItemStackUtil.empty());
+        for (ItemStack stack : wrenches) {
+            if (ItemStackUtil.isEmpty(stack) || !ItemUtil.toId(ItemStackUtil.getItem(stack)).getNamespace()
+                    .equalsIgnoreCase(namespace)) {
+                wrenches.remove(stack);
+                continue;
+            }
+
+            sorted.add(stack);
+        }
+
+        sorted.addAll(wrenches);
+
+        return sorted;
+    }
+
+    /**
+     * Get list of wrenches from universal wrench item stack
+     * @param world World
+     * @param universalWrenchStack Universal wrench item stack
+     * @return List of wrenches
+     */
+    public static ItemStackList getWrenchesWithSortByNamespace(World world, ItemStack universalWrenchStack, String namespace) {
+        ItemStackList list = getWrenches(world, universalWrenchStack);
+        list = sortByNamespace(list, namespace);
+        return list;
     }
 
     /**
@@ -109,7 +149,8 @@ public class WrenchItem extends CompatItem {
         ItemStack stack = e.getStack();
         World world = e.getWorld();
 
-        ItemStackList wrenches = getWrenches(world, stack);
+        String namespace = e.getBlockWrapper().getId().getNamespace();
+        ItemStackList wrenches = getWrenchesWithSortByNamespace(world, stack, namespace);
 
         for (int i = 0; i < wrenches.size(); i++) {
             ItemStack wrench = wrenches.get(i);
