@@ -3,9 +3,10 @@ package net.pitan76.universalwrench.screen.slot;
 import net.minecraft.inventory.Inventory;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 import net.pitan76.mcpitanlib.api.gui.slot.CompatibleSlot;
+import net.pitan76.mcpitanlib.api.util.InventoryUtil;
 import net.pitan76.mcpitanlib.api.util.item.ItemUtil;
+import net.pitan76.mcpitanlib.midohra.item.ItemStack;
 import net.pitan76.universalwrench.UWConfig;
 import net.pitan76.universalwrench.item.WrenchItem;
 
@@ -17,10 +18,10 @@ public class WrenchInputSlot extends CompatibleSlot {
 
     @Override
     public boolean canInsert(ItemStack stack) {
-        if (!(inventory.getStack(0).getItem() instanceof WrenchItem))
+        if (!(InventoryUtil.getStack(inventory, 0).getItem() instanceof WrenchItem))
             return false;
 
-        Item item = stack.getItem();
+        Item item = stack.getItem().get();
 
         // BlockItem is not allowed
         if (UWConfig.denyBlockItem && item instanceof BlockItem)

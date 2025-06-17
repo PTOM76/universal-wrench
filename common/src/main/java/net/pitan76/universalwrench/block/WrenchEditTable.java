@@ -6,12 +6,12 @@ import net.minecraft.text.Text;
 import net.pitan76.mcpitanlib.api.block.v2.CompatBlock;
 import net.pitan76.mcpitanlib.api.block.v2.CompatibleBlockSettings;
 import net.pitan76.mcpitanlib.api.event.block.BlockUseEvent;
-import net.pitan76.mcpitanlib.api.event.block.ItemScattererUtil;
 import net.pitan76.mcpitanlib.api.event.block.StateReplacedEvent;
 import net.pitan76.mcpitanlib.api.event.container.factory.DisplayNameArgs;
 import net.pitan76.mcpitanlib.api.gui.args.CreateMenuEvent;
 import net.pitan76.mcpitanlib.api.gui.v2.SimpleScreenHandlerFactory;
 import net.pitan76.mcpitanlib.api.util.CompatActionResult;
+import net.pitan76.mcpitanlib.api.util.InventoryUtil;
 import net.pitan76.mcpitanlib.api.util.ItemStackUtil;
 import net.pitan76.mcpitanlib.api.util.TextUtil;
 import net.pitan76.mcpitanlib.core.serialization.CompatMapCodec;
@@ -40,13 +40,13 @@ public class WrenchEditTable extends CompatBlock implements SimpleScreenHandlerF
     @Override
     public void onStateReplaced(StateReplacedEvent e) {
         if (!e.isSameState() && e.hasInventory()) {
-            Inventory inventory = (Inventory) e.getBlockEntity();
-            for (int i = 1; i < inventory.size(); i++) {
-                inventory.setStack(i, ItemStackUtil.empty());
+            Inventory inv = (Inventory) e.getBlockEntity();
+            int size = InventoryUtil.getSize(inv);
+            for (int i = 1; i < size; i++) {
+                InventoryUtil.setStack(inv, i, ItemStackUtil.empty());
             }
 
-            ItemScattererUtil.spawn(e.getWorld(), e.getPos(), e.getBlockEntity());
-            e.updateComparators();
+            e.spawnDropsInContainer();
         }
         super.onStateReplaced(e);
     }

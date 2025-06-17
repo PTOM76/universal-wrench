@@ -4,6 +4,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
@@ -20,6 +21,10 @@ import net.pitan76.mcpitanlib.api.util.block.BlockUtil;
 import net.pitan76.mcpitanlib.api.util.collection.ItemStackList;
 import net.pitan76.mcpitanlib.api.util.item.ItemUtil;
 import net.pitan76.mcpitanlib.midohra.item.ItemGroups;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import static net.pitan76.universalwrench.UniversalWrench._id;
 
@@ -83,20 +88,23 @@ public class WrenchItem extends CompatItem {
     public static ItemStackList sortByNamespace(ItemStackList wrenches, String namespace) {
         if (wrenches.isEmpty() || namespace == null || namespace.isEmpty()) return wrenches;
 
-        ItemStackList sorted = ItemStackList.ofSize(wrenches.size(), ItemStackUtil.empty());
+        List<ItemStack> sorted = new ArrayList<>();
+        List<ItemStack> temp = new ArrayList<>();
+
         for (ItemStack stack : wrenches) {
-            if (ItemStackUtil.isEmpty(stack) || !ItemUtil.toId(ItemStackUtil.getItem(stack)).getNamespace()
+            if (ItemStackUtil.isEmpty(stack)) continue;
+            if (!ItemUtil.toId(ItemStackUtil.getItem(stack)).getNamespace()
                     .equalsIgnoreCase(namespace)) {
-                wrenches.remove(stack);
+                temp.add(stack);
                 continue;
             }
 
             sorted.add(stack);
         }
 
-        sorted.addAll(wrenches);
+        sorted.addAll(temp);
 
-        return sorted;
+        return ItemStackList.of2(sorted);
     }
 
     /**

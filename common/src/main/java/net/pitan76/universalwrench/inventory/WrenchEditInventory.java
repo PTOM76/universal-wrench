@@ -49,11 +49,11 @@ public class WrenchEditInventory extends CompatInventory {
     public void setStack(int slot, ItemStack stack) {
         superSetStack(slot, stack);
         if (slot == 0) {
-            if (stack.isEmpty()) {
+            if (ItemStackUtil.isEmpty(stack)) {
                 clearWrenchContainer();
             }
 
-            if (stack.getItem() instanceof WrenchItem) {
+            if (ItemStackUtil.getItem(stack) instanceof WrenchItem) {
                 updateWrenchContainerByWrenchStack();
             }
             return;
@@ -134,8 +134,8 @@ public class WrenchEditInventory extends CompatInventory {
      * If remove stack, write nbt to the universal wrench stack
      */
     @Override
-    public ItemStack removeStack(int slot, int amount) {
-        ItemStack stack = super.removeStack(slot, amount);
+    public ItemStack callRemoveStack(int slot, int amount) {
+        ItemStack stack = super.callRemoveStack(slot, amount);
         updateWrenchStack();
 
         return stack;

@@ -26,7 +26,6 @@ public class UWConfig {
         initialized = true;
 
         reload();
-
         save();
     }
 
