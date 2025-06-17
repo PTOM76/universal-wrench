@@ -20,9 +20,11 @@ import net.pitan76.mcpitanlib.api.util.block.BlockUtil;
 import net.pitan76.mcpitanlib.api.util.collection.ItemStackList;
 import net.pitan76.mcpitanlib.api.util.item.ItemUtil;
 import net.pitan76.mcpitanlib.midohra.item.ItemGroups;
+import net.pitan76.universalwrench.UniversalWrench;
+import net.pitan76.universalwrench.WrenchAction;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.function.Supplier;
 
 import static net.pitan76.universalwrench.UniversalWrench._id;
 
@@ -36,8 +38,19 @@ public class WrenchItem extends CompatItem {
         this(CompatibleItemSettings.of(_id("wrench")).maxCount(1).addGroup(ItemGroups.TOOLS));
     }
 
+    // 後に処理するためのアクションをスタックする
+    public static final Map<ItemStack, List<WrenchAction>> actionStack = new HashMap<>();
+
+    public static void pushAction(ItemStack stack, Supplier<CompatActionResult> action, int index) {
+        if (stack.isEmpty() || !(stack.getItem() instanceof WrenchItem)) return;
+
+        List<WrenchAction> actions = actionStack.computeIfAbsent(stack, k -> new ArrayList<>());
+        actions.add(new WrenchAction(action, index));
+    }
+
     /**
      * Right-click on block event
+     * onRightClickOnBlockと違ってブロック側で処理されているイベントはそれが優先されるのでここで対処する
      * @param e Click block event
      * @return Event result
      */
@@ -62,9 +75,22 @@ public class WrenchItem extends CompatItem {
             ItemStack wrench = wrenches.get(i);
             if (wrench.isEmpty()) continue;
 
+            if (!ItemUtil.toId(ItemStackUtil.getItem(wrench)).getNamespace().equalsIgnoreCase(namespace)) {
+                pushAction(stack, () -> {
+                    player.setStackInHand(hand, wrench);
+                    CompatActionResult result = InteractUtil.useBlock(state, world, player, e.getDirection(), e.getPos());
+                    player.setStackInHand(hand, stack);
+
+                    return result;
+                }, i);
+                continue;
+            }
+
             player.setStackInHand(hand, wrench);
             CompatActionResult result = InteractUtil.useBlock(state, world, player, e.getDirection(), e.getPos());
             player.setStackInHand(hand, stack);
+
+            //UniversalWrench.INSTANCE.logger.info("WrenchItem.onRightClickOnBlockE: " + result.getName() + " for " + ItemUtil.toId(wrench.getItem()).toString());
 
             if (!result.equals(CompatActionResult.PASS)) {
                 wrenches.set(i, wrench);
@@ -166,12 +192,29 @@ public class WrenchItem extends CompatItem {
             CompatActionResult result = InteractUtil.useItemOnBlock(wrench.getItem(), e);
             player.setStackInHand(hand, stack);
 
+            //UniversalWrench.INSTANCE.logger.info("WrenchItem.onRightClickOnBlock: " + result.getName() + " for " + ItemUtil.toId(wrench.getItem()).toString());
+
             if (!result.equals(CompatActionResult.PASS)) {
                 wrenches.set(i, wrench);
                 setWrenches(world, stack, wrenches);
 
                 return result;
             }
+        }
+
+        if (actionStack.containsKey(stack)) {
+            List<WrenchAction> actions = actionStack.get(stack);
+            for (WrenchAction action : actions) {
+                CompatActionResult result = action.supplier.get();
+                if (isSuccess(result)) {
+                    int index = action.index;
+                    wrenches.set(index, stack);
+                    setWrenches(world, stack, wrenches);
+
+                    return result;
+                }
+            }
+            actionStack.remove(stack);
         }
 
         return e.pass();
@@ -185,5 +228,9 @@ public class WrenchItem extends CompatItem {
     @Override
     public CompatActionResult onRightClickOnEntity(ItemUseOnEntityEvent e) {
         return super.onRightClickOnEntity(e);
+    }
+
+    public static boolean isSuccess(CompatActionResult result) {
+        return result.equals(CompatActionResult.SUCCESS) || result.equals(CompatActionResult.SUCCESS_SERVER);
     }
 }
