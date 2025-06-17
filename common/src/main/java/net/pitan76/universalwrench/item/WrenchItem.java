@@ -204,17 +204,25 @@ public class WrenchItem extends CompatItem {
 
         if (actionStack.containsKey(stack)) {
             List<WrenchAction> actions = actionStack.get(stack);
+
+            CompatActionResult successResult = null;
+
             for (WrenchAction action : actions) {
                 CompatActionResult result = action.supplier.get();
-                if (isSuccess(result)) {
+                if (!result.equals(CompatActionResult.PASS)) {
                     int index = action.index;
                     wrenches.set(index, stack);
                     setWrenches(world, stack, wrenches);
 
-                    return result;
+                    successResult = result;
+                    break;
                 }
             }
+
             actionStack.remove(stack);
+
+            if (successResult != null)
+                return successResult;
         }
 
         return e.pass();
