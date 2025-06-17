@@ -4,7 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.world.World;
 import net.pitan76.mcpitanlib.api.entity.Player;
@@ -24,7 +23,6 @@ import net.pitan76.mcpitanlib.midohra.item.ItemGroups;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static net.pitan76.universalwrench.UniversalWrench._id;
 
